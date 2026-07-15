@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusHub | Dashboard Home</title>
+  <meta name="description" content="Central hub dashboard containing latest campus notices, upcoming hackathons, lost items, and marketplace deals.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  
+  <!-- Theme early load -->
+  <script src="../js/theme.js"></script>
+  
+  <style>
+    /* Home specific styles */
+    .hero-section {
+      background: linear-gradient(135deg, var(--color-primary-light), rgba(126, 58, 242, 0.05));
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xxl) var(--spacing-lg);
+      margin-bottom: var(--spacing-xxl);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--color-glass-border);
+    }
+
+    .hero-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--spacing-xl);
+      position: relative;
+      z-index: 5;
+    }
+
+    .hero-text {
+      flex: 1.5;
+    }
+
+    .hero-illustration {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-illustration svg {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xxl);
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: var(--spacing-lg);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    .dashboard-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xxl);
+    }
+
+    .shortcut-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .shortcut-icon {
+      font-size: 2.25rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    /* Preview Sections */
+    .preview-section {
+      margin-bottom: var(--spacing-xxl);
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .notice-item-home {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .notice-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container navbar">
+      <div class="nav-brand" onclick="location.href='home.html'">
+        CampusHub
+      </div>
+      
+      <nav class="nav-links">
+        <a href="home.html" class="nav-link active">Home</a>
+        <a href="notes.html" class="nav-link">Notes</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="lost-found.html" class="nav-link">Lost & Found</a>
+        <a href="marketplace.html" class="nav-link">Marketplace</a>
+        <a href="complaints.html" class="nav-link">Complaints</a>
+        <a href="notice-board.html" class="nav-link">Notice Board</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" class="btn btn-secondary btn-icon-only" aria-label="Toggle Theme">
+          <!-- Populated by JS -->
+        </button>
+        
+        <!-- Notifications Bell -->
+        <div class="bell-container">
+          <button class="btn btn-secondary btn-icon-only" aria-label="Notifications">
+            <span class="bell-badge"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          <div class="notification-dropdown">
+            <div class="notification-header">Latest Announcements</div>
+            <div class="notification-list" id="header-notices-list">
+              <!-- Populated by JS -->
+            </div>
+            <div style="padding: var(--spacing-sm); text-align: center; border-top: 1px solid var(--color-border);">
+              <a href="notice-board.html" style="font-size: 0.85rem; font-weight: 600;">View All Notices</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile (UI only) -->
+        <div class="profile-container">
+          <div class="profile-avatar">S</div>
+          <div class="profile-dropdown">
+            <div style="padding: var(--spacing-md); border-bottom: 1px solid var(--color-border);">
+              <div style="font-weight: 600;" id="user-profile-name">Student User</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-muted);">student@university.edu</div>
+            </div>
+            <a class="profile-dropdown-item" href="complaints.html">
+              <span>My Complaints</span>
+            </a>
+            <a class="profile-dropdown-item" href="lost-found.html">
+              <span>My Claims</span>
+            </a>
+            <a class="profile-dropdown-item" href="marketplace.html">
+              <span>My Listings</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hamburger for Mobile -->
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="container">
+    
+    <!-- Hero Banner -->
+    <section class="hero-section reveal">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="reveal-left" style="font-size: 2.75rem;">Your campus community, all in one place.</h1>
+          <p class="reveal-left" style="font-size: 1.15rem; max-width: 540px; margin-bottom: var(--spacing-lg);">
+            CampusHub centralizes notices, notes, events, lost possessions, and local student listings into a single fluid portal. Built for students, by students.
+          </p>
+          <div class="hero-buttons d-flex gap-md mt-lg">
+            <a href="notes.html" class="btn btn-primary">Browse Study Notes</a>
+            <a href="lost-found.html" class="btn btn-secondary">Report Lost possession</a>
+          </div>
+        </div>
+        <div class="hero-illustration animate-float">
+          <!-- High-quality SVG illustration -->
+          <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="80" width="400" height="280" rx="20" fill="var(--color-surface)" stroke="var(--color-primary)" stroke-width="4" />
+            <rect x="50" y="80" width="400" height="40" rx="0" fill="var(--color-primary-light)" />
+            <circle cx="80" cy="100" r="8" fill="var(--color-error)" />
+            <circle cx="104" cy="100" r="8" fill="var(--color-warning)" />
+            <circle cx="128" cy="100" r="8" fill="var(--color-success)" />
+            <rect x="90" y="160" width="320" height="20" rx="4" fill="var(--color-border)" />
+            <rect x="90" y="200" width="240" height="20" rx="4" fill="var(--color-border)" />
+            <rect x="90" y="240" width="280" height="20" rx="4" fill="var(--color-border)" />
+            <!-- Floating cards representing portal modules -->
+            <g transform="translate(320, 240)" filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.1))">
+              <rect width="140" height="100" rx="12" fill="var(--color-primary)" />
+              <text x="20" y="40" fill="white" font-family="var(--font-display)" font-weight="bold" font-size="14">NEW EVENT</text>
+              <text x="20" y="70" fill="white" font-family="var(--font-primary)" font-size="11">Hackathon 4.0</text>
+            </g>
+            <g transform="translate(20, 200)" filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.15))">
+              <rect width="120" height="90" rx="12" fill="var(--color-secondary)" />
+              <text x="20" y="35" fill="white" font-family="var(--font-display)" font-weight="bold" font-size="14">MARKET</text>
+              <text x="20" y="65" fill="white" font-family="var(--font-primary)" font-size="11">Monitor - ₹20,000</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Animated Statistics Section -->
+    <section class="stats-container reveal">
+      <div class="card stat-card">
+        <div class="stat-number" data-target="4850">0</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-number" data-target="128">0</div>
+        <div class="stat-label">Study Notes</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-number" data-target="42">0</div>
+        <div class="stat-label">Events This Month</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-number" data-target="324">0</div>
+        <div class="stat-label">Lost & Found Solved</div>
+      </div>
+    </section>
+
+    <!-- Core Hub Shortcuts -->
+    <section class="reveal">
+      <h2 class="section-title">Explore CampusHub</h2>
+      <p class="section-subtitle">Quick access to everything you need to navigate college life successfully.</p>
+      
+      <div class="dashboard-shortcuts">
+        <div class="card shortcut-card" onclick="location.href='notes.html'">
+          <div class="shortcut-icon">📚</div>
+          <h3 class="card-title">Notes Share</h3>
+          <p class="card-body">Access and share lecture summaries, exam study material, and lab journals.</p>
+          <a href="notes.html" class="btn btn-secondary btn-sm mt-auto w-100">Explore Notes</a>
+        </div>
+        <div class="card shortcut-card" onclick="location.href='events.html'">
+          <div class="shortcut-icon">🏆</div>
+          <h3 class="card-title">Campus Events</h3>
+          <p class="card-body">Keep track of ongoing workshops, sports tournaments, placement drives and hackathons.</p>
+          <a href="events.html" class="btn btn-secondary btn-sm mt-auto w-100">See Events</a>
+        </div>
+        <div class="card shortcut-card" onclick="location.href='lost-found.html'">
+          <div class="shortcut-icon">🔍</div>
+          <h3 class="card-title">Lost & Found</h3>
+          <p class="card-body">Misplaced a key, phone or folder? Report it immediately or browse reported items.</p>
+          <a href="lost-found.html" class="btn btn-secondary btn-sm mt-auto w-100">View Items</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Notices Preview -->
+    <section class="preview-section reveal">
+      <div class="preview-header">
+        <div>
+          <h2>Important Notices</h2>
+          <p style="margin: 0;">Academic and placement deadlines you shouldn't miss.</p>
+        </div>
+        <a href="notice-board.html" class="btn btn-secondary btn-sm">View Notice Board</a>
+      </div>
+      <div class="preview-grid" id="home-notices-grid">
+        <!-- Dynamic notices content populated by JS -->
+      </div>
+    </section>
+
+    <!-- Upcoming Events Preview -->
+    <section class="preview-section reveal">
+      <div class="preview-header">
+        <div>
+          <h2>Upcoming Events</h2>
+          <p style="margin: 0;">Be a part of coding events, webinars, and tournaments.</p>
+        </div>
+        <a href="events.html" class="btn btn-secondary btn-sm">View All Events</a>
+      </div>
+      <div class="preview-grid" id="home-events-grid">
+        <!-- Dynamic events content populated by JS -->
+      </div>
+    </section>
+
+    <!-- Recent Lost Items & Marketplace Previews in Split Grid -->
+    <div class="preview-section split-layout d-flex gap-lg reveal">
+      <div style="flex: 1;">
+        <div class="preview-header">
+          <div>
+            <h2>Recent Lost Items</h2>
+          </div>
+          <a href="lost-found.html" class="btn btn-secondary btn-sm">Lost & Found</a>
+        </div>
+        <div id="home-lostfound-grid" class="d-flex flex-column gap-md">
+          <!-- Dynamic lost and found content populated by JS -->
+        </div>
+      </div>
+      
+      <div style="flex: 1;">
+        <div class="preview-header">
+          <div>
+            <h2>Marketplace Preview</h2>
+          </div>
+          <a href="marketplace.html" class="btn btn-secondary btn-sm">Go to Marketplace</a>
+        </div>
+        <div id="home-marketplace-grid" class="d-flex flex-column gap-md">
+          <!-- Dynamic marketplace content populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive FAQ Accordion -->
+    <section class="reveal mt-lg">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Got questions? We've got answers.</p>
+      
+      <div class="accordion" style="max-width: 800px; margin: 0 auto;">
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>What is CampusHub and who can use it?</span>
+            <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              CampusHub is an integrated platform for students and faculty of the university. Anyone with a valid student email can access resources, list items, post announcements, or report lost items.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>Are items bought/sold here secure?</span>
+            <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Yes, transactions are coordinate directly between students face-to-face on campus. CampusHub does not process payments or collect commissions, keeping listings community-driven.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>How do I submit a grievance or complaint?</span>
+            <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Navigate to the "Complaints" portal, fill out the form specifying the category (academic, hostel, infrastructure, etc.), and submit. You will get a unique tracking ID and can monitor the resolution status.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="card reveal mt-xxl text-center" style="background: linear-gradient(135deg, rgba(88, 80, 236, 0.05), rgba(6, 182, 212, 0.05)); border: 1px solid rgba(88, 80, 236, 0.15); padding: var(--spacing-xxl);">
+      <h2 style="margin-bottom: var(--spacing-sm);">Subscribe to Campus Digest</h2>
+      <p style="max-width: 500px; margin: 0 auto var(--spacing-lg) auto;">Stay updated on immediate placement announcements, schedule changes, and upcoming hackathons directly in your inbox.</p>
+      
+      <form id="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to newsletter successfully!', 'success'); this.reset();" style="display: flex; gap: var(--spacing-sm); max-width: 480px; margin: 0 auto; flex-wrap: wrap;">
+        <div class="form-group" style="flex-grow: 1; margin: 0;">
+          <input type="email" placeholder="student@university.edu" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin: 0;">Subscribe</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Sticky Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-info">
+        <div class="nav-brand" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="location.href='home.html'">CampusHub</div>
+        <p>A decentralized student life and resource utility platform coordinating classroom files, local marketplaces, lost items, and notice boards.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Pages</h4>
+        <div class="footer-links">
+          <a href="home.html" class="footer-link">Dashboard</a>
+          <a href="notes.html" class="footer-link">Notes Library</a>
+          <a href="events.html" class="footer-link">Campus Events</a>
+          <a href="notice-board.html" class="footer-link">Notice Board</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Support</h4>
+        <div class="footer-links">
+          <a href="complaints.html" class="footer-link">Complaint Portal</a>
+          <a href="lost-found.html" class="footer-link">Lost & Found</a>
+          <a href="#" class="footer-link">Grievance Cell</a>
+          <a href="#" class="footer-link">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Contact</h4>
+        <div class="footer-links" style="color: var(--color-text-secondary); font-size: 0.9rem;">
+          <p>📍 Admin Building, Wing B</p>
+          <p>📧 support@campushub.edu</p>
+          <p>📞 +1 (555) 019-2834</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 CampusHub. Built for student body excellence.</p>
+      <div class="d-flex gap-md">
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Terms of Service</a>
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

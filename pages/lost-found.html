@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusHub | Lost & Found System</title>
+  <meta name="description" content="Report lost items or claim found possessions on campus. Safe, verified student listings.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  
+  <!-- Theme early load -->
+  <script src="../js/theme.js"></script>
+  
+  <style>
+    /* Type filters row styling */
+    .type-filters {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .type-btn {
+      flex: 1;
+      padding: var(--spacing-md);
+      font-size: 1rem;
+      font-weight: 700;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+      color: var(--color-text-secondary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .type-btn:hover {
+      background-color: var(--color-surface-hover);
+    }
+
+    .type-btn.active-lost {
+      background-color: var(--color-error-light);
+      border-color: var(--color-error);
+      color: var(--color-error);
+    }
+
+    .type-btn.active-found {
+      background-color: var(--color-success-light);
+      border-color: var(--color-success);
+      color: var(--color-success);
+    }
+    
+    .type-btn.active-all {
+      background-color: var(--color-primary-light);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* Modal / Drawer override */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1060;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-normal);
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 480px;
+      height: 100%;
+      background-color: var(--color-surface);
+      box-shadow: var(--shadow-xl);
+      transform: translateX(100%);
+      transition: transform var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-overlay.active .drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .drawer-body {
+      padding: var(--spacing-lg);
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    .drawer-footer {
+      padding: var(--spacing-lg);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      gap: var(--spacing-md);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container navbar">
+      <div class="nav-brand" onclick="location.href='home.html'">CampusHub</div>
+      <nav class="nav-links">
+        <a href="home.html" class="nav-link">Home</a>
+        <a href="notes.html" class="nav-link">Notes</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="lost-found.html" class="nav-link active">Lost & Found</a>
+        <a href="marketplace.html" class="nav-link">Marketplace</a>
+        <a href="complaints.html" class="nav-link">Complaints</a>
+        <a href="notice-board.html" class="nav-link">Notice Board</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="btn btn-secondary btn-icon-only" aria-label="Toggle Theme"></button>
+        
+        <div class="bell-container">
+          <button class="btn btn-secondary btn-icon-only" aria-label="Notifications">
+            <span class="bell-badge"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          <div class="notification-dropdown">
+            <div class="notification-header">Latest Announcements</div>
+            <div class="notification-list" id="header-notices-list"></div>
+            <div style="padding: var(--spacing-sm); text-align: center; border-top: 1px solid var(--color-border);">
+              <a href="notice-board.html" style="font-size: 0.85rem; font-weight: 600;">View All Notices</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-container">
+          <div class="profile-avatar">S</div>
+          <div class="profile-dropdown">
+            <div style="padding: var(--spacing-md); border-bottom: 1px solid var(--color-border);">
+              <div style="font-weight: 600;">Student User</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-muted);">student@university.edu</div>
+            </div>
+            <a class="profile-dropdown-item" href="complaints.html"><span>My Complaints</span></a>
+            <a class="profile-dropdown-item" href="lost-found.html"><span>My Claims</span></a>
+            <a class="profile-dropdown-item" href="marketplace.html"><span>My Listings</span></a>
+          </div>
+        </div>
+
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="container">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-xl);" class="reveal">
+      <div>
+        <h1 class="section-title" style="text-align: left; margin: 0;">Lost & Found System</h1>
+        <p style="margin: 0; color: var(--color-text-secondary);">Misplaced something? Report details or claim found belongings on campus.</p>
+      </div>
+      <button class="btn btn-primary" id="open-report-drawer-btn">
+        + Report Lost/Found Item
+      </button>
+    </div>
+
+    <!-- Search / Filter Layout -->
+    <section class="card reveal" style="margin-bottom: var(--spacing-xl);">
+      <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; align-items: center;">
+        
+        <!-- Search bar -->
+        <div class="search-container" style="flex-grow: 2; min-width: 260px; margin: 0;">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="lf-search-input" class="form-control search-input" placeholder="Search reported items by keyword, location...">
+        </div>
+
+        <!-- Category Select -->
+        <div style="flex-grow: 1; min-width: 150px;">
+          <select id="lf-category-select" class="form-control" aria-label="Filter by Category">
+            <option value="all">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Books">Books/Folders</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Type filter tabs -->
+      <div class="type-filters mt-md">
+        <button class="type-btn active-all" data-type="all">All Items</button>
+        <button class="type-btn" data-type="lost">Lost Listings</button>
+        <button class="type-btn" data-type="found">Found Listings</button>
+      </div>
+    </section>
+
+    <!-- Grid List of Items -->
+    <section id="lf-grid" class="responsive-grid reveal">
+      <div class="card skeleton-card skeleton"></div>
+      <div class="card skeleton-card skeleton"></div>
+      <div class="card skeleton-card skeleton"></div>
+    </section>
+
+    <!-- Slide-out Drawer for adding items -->
+    <div id="report-drawer-overlay" class="drawer-overlay">
+      <form class="drawer" id="lf-report-form">
+        <div class="drawer-header">
+          <h2>Report Campus Item</h2>
+          <button type="button" class="modal-close-btn" id="close-report-drawer-btn">&times;</button>
+        </div>
+        
+        <div class="drawer-body">
+          <!-- Type select -->
+          <div class="form-group">
+            <label class="form-label">Report Type</label>
+            <div class="d-flex gap-md">
+              <label class="d-flex align-center gap-sm" style="font-weight: 500;">
+                <input type="radio" name="type" value="lost" checked style="width: 18px; height: 18px;">
+                Lost Possession
+              </label>
+              <label class="d-flex align-center gap-sm" style="font-weight: 500;">
+                <input type="radio" name="type" value="found" style="width: 18px; height: 18px;">
+                Found Belonging
+              </label>
+            </div>
+          </div>
+
+          <!-- Item Name -->
+          <div class="form-group">
+            <label class="form-label" for="lf-name">Item Name</label>
+            <input type="text" id="lf-name" name="name" class="form-control" placeholder="e.g. Blue Jansport Backpack">
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label class="form-label" for="lf-category">Category</label>
+            <select id="lf-category" name="category" class="form-control">
+              <option value="Electronics">Electronics</option>
+              <option value="Books">Books/Folders</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label" for="lf-desc">Description</label>
+            <textarea id="lf-desc" name="description" class="form-control" placeholder="Describe unique markings, color, size, contents inside..."></textarea>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label class="form-label" for="lf-loc">Location</label>
+            <input type="text" id="lf-loc" name="location" class="form-control" placeholder="e.g. Cafe terrace, Library B-row">
+          </div>
+
+          <!-- Contact Number -->
+          <div class="form-group">
+            <label class="form-label" for="lf-contact">Contact Number</label>
+            <input type="tel" id="lf-contact" name="contact" class="form-control" placeholder="10-digit mobile number">
+          </div>
+
+          <!-- Image URL -->
+          <div class="form-group">
+            <label class="form-label" for="lf-image">Image URL (Optional)</label>
+            <input type="url" id="lf-image" name="image" class="form-control" placeholder="Link to item photo online">
+          </div>
+        </div>
+
+        <div class="drawer-footer">
+          <button type="button" class="btn btn-secondary" style="flex: 1;" id="cancel-report-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Report</button>
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-info">
+        <div class="nav-brand" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="location.href='home.html'">CampusHub</div>
+        <p>A decentralized student life and resource utility platform coordinating classroom files, local marketplaces, lost items, and notice boards.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Pages</h4>
+        <div class="footer-links">
+          <a href="home.html" class="footer-link">Dashboard</a>
+          <a href="notes.html" class="footer-link">Notes Library</a>
+          <a href="events.html" class="footer-link">Campus Events</a>
+          <a href="notice-board.html" class="footer-link">Notice Board</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Support</h4>
+        <div class="footer-links">
+          <a href="complaints.html" class="footer-link">Complaint Portal</a>
+          <a href="lost-found.html" class="footer-link">Lost & Found</a>
+          <a href="#" class="footer-link">Grievance Cell</a>
+          <a href="#" class="footer-link">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Contact</h4>
+        <div class="footer-links" style="color: var(--color-text-secondary); font-size: 0.9rem;">
+          <p>📍 Admin Building, Wing B</p>
+          <p>📧 support@campushub.edu</p>
+          <p>📞 +1 (555) 019-2834</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 CampusHub. Built for student body excellence.</p>
+      <div class="d-flex gap-md">
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Terms of Service</a>
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/search.js"></script>
+  <script src="../js/validation.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/lostfound.js"></script>
+</body>
+</html>

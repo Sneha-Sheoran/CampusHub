@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusHub | Notes Library</title>
+  <meta name="description" content="Access lecture guides, study material, syllabus guides, and exam reviews shared by peers and faculty.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  
+  <!-- Theme early load -->
+  <script src="../js/theme.js"></script>
+  
+  <style>
+    .notes-header {
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .controls-row {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-xl);
+      align-items: center;
+    }
+    
+    .search-wrapper {
+      flex-grow: 1;
+      min-width: 280px;
+    }
+    
+    .select-wrapper {
+      min-width: 160px;
+    }
+
+    .bookmark-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      transition: color var(--transition-fast);
+      display: flex;
+      align-items: center;
+      padding: var(--spacing-xs);
+    }
+
+    .bookmark-btn.active {
+      color: var(--color-warning);
+    }
+    
+    .bookmark-btn:hover {
+      color: var(--color-warning);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container navbar">
+      <div class="nav-brand" onclick="location.href='home.html'">CampusHub</div>
+      <nav class="nav-links">
+        <a href="home.html" class="nav-link">Home</a>
+        <a href="notes.html" class="nav-link active">Notes</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="lost-found.html" class="nav-link">Lost & Found</a>
+        <a href="marketplace.html" class="nav-link">Marketplace</a>
+        <a href="complaints.html" class="nav-link">Complaints</a>
+        <a href="notice-board.html" class="nav-link">Notice Board</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="btn btn-secondary btn-icon-only" aria-label="Toggle Theme"></button>
+        
+        <div class="bell-container">
+          <button class="btn btn-secondary btn-icon-only" aria-label="Notifications">
+            <span class="bell-badge"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          <div class="notification-dropdown">
+            <div class="notification-header">Latest Announcements</div>
+            <div class="notification-list" id="header-notices-list"></div>
+            <div style="padding: var(--spacing-sm); text-align: center; border-top: 1px solid var(--color-border);">
+              <a href="notice-board.html" style="font-size: 0.85rem; font-weight: 600;">View All Notices</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-container">
+          <div class="profile-avatar">S</div>
+          <div class="profile-dropdown">
+            <div style="padding: var(--spacing-md); border-bottom: 1px solid var(--color-border);">
+              <div style="font-weight: 600;">Student User</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-muted);">student@university.edu</div>
+            </div>
+            <a class="profile-dropdown-item" href="complaints.html"><span>My Complaints</span></a>
+            <a class="profile-dropdown-item" href="lost-found.html"><span>My Claims</span></a>
+            <a class="profile-dropdown-item" href="marketplace.html"><span>My Listings</span></a>
+          </div>
+        </div>
+
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container">
+    
+    <div class="notes-header reveal">
+      <h1 class="section-title">Notes Library</h1>
+      <p class="section-subtitle">Find, bookmark, and download lecture notes, course guides, and exam cheat-sheets.</p>
+    </div>
+
+    <!-- Search, Sort and Filter Row -->
+    <section class="card controls-row reveal">
+      <!-- Search Input -->
+      <div class="search-container search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="notes-search-input" class="form-control search-input" placeholder="Search notes by subject, code, or professor...">
+      </div>
+
+      <!-- Department Filter -->
+      <div class="select-wrapper">
+        <select id="notes-dept-select" class="form-control" aria-label="Filter by Department">
+          <option value="all">All Departments</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Mechanical">Mechanical</option>
+          <option value="Civil">Civil</option>
+        </select>
+      </div>
+
+      <!-- Semester Filter -->
+      <div class="select-wrapper">
+        <select id="notes-sem-select" class="form-control" aria-label="Filter by Semester">
+          <option value="all">All Semesters</option>
+          <option value="3rd Semester">3rd Semester</option>
+          <option value="4th Semester">4th Semester</option>
+          <option value="5th Semester">5th Semester</option>
+          <option value="6th Semester">6th Semester</option>
+        </select>
+      </div>
+
+      <!-- Sort Selection -->
+      <div class="select-wrapper">
+        <select id="notes-sort-select" class="form-control" aria-label="Sort options">
+          <option value="downloads">Sort by Downloads</option>
+          <option value="subject">Sort by Subject Name</option>
+          <option value="bookmarks">Sort by Bookmarks</option>
+        </select>
+      </div>
+
+      <!-- Bookmarks Toggle -->
+      <button id="toggle-bookmarks-view" class="btn btn-secondary d-flex align-center gap-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+        </svg>
+        <span>View Bookmarked</span>
+      </button>
+    </section>
+
+    <!-- Notes List Grid -->
+    <section id="notes-grid" class="responsive-grid reveal">
+      <!-- Loading Skeleton initially -->
+      <div class="card skeleton-card skeleton"></div>
+      <div class="card skeleton-card skeleton"></div>
+      <div class="card skeleton-card skeleton"></div>
+    </section>
+
+    <!-- Simulating Download Loading Modal -->
+    <div id="download-modal" class="modal-overlay">
+      <div class="modal" style="max-width: 380px; text-align: center; padding: var(--spacing-xl);">
+        <h3 style="margin-bottom: var(--spacing-md);">Preparing Download...</h3>
+        <!-- Simple Spinner -->
+        <div style="border: 4px solid var(--color-border); border-top-color: var(--color-primary); width: 48px; height: 48px; border-radius: var(--radius-full); margin: 0 auto var(--spacing-lg) auto; animation: spin 1s linear infinite;"></div>
+        <p style="margin-bottom: 0;" id="download-progress-text">Connecting to CDN server...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-info">
+        <div class="nav-brand" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="location.href='home.html'">CampusHub</div>
+        <p>A decentralized student life and resource utility platform coordinating classroom files, local marketplaces, lost items, and notice boards.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Pages</h4>
+        <div class="footer-links">
+          <a href="home.html" class="footer-link">Dashboard</a>
+          <a href="notes.html" class="footer-link">Notes Library</a>
+          <a href="events.html" class="footer-link">Campus Events</a>
+          <a href="notice-board.html" class="footer-link">Notice Board</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Support</h4>
+        <div class="footer-links">
+          <a href="complaints.html" class="footer-link">Complaint Portal</a>
+          <a href="lost-found.html" class="footer-link">Lost & Found</a>
+          <a href="#" class="footer-link">Grievance Cell</a>
+          <a href="#" class="footer-link">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Contact</h4>
+        <div class="footer-links" style="color: var(--color-text-secondary); font-size: 0.9rem;">
+          <p>📍 Admin Building, Wing B</p>
+          <p>📧 support@campushub.edu</p>
+          <p>📞 +1 (555) 019-2834</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 CampusHub. Built for student body excellence.</p>
+      <div class="d-flex gap-md">
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Terms of Service</a>
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/search.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/notes.js"></script>
+</body>
+</html>

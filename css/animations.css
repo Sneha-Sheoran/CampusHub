@@ -1,0 +1,153 @@
+/* CampusHub Keyframes & Animations */
+
+/* Base transitions */
+.fade-in {
+  animation: fadeIn var(--transition-normal) forwards;
+}
+
+.slide-up {
+  animation: slideUp var(--transition-normal) forwards;
+}
+
+.scale-in {
+  animation: scaleIn var(--transition-normal) forwards;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Float Animation for Hero illustrations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Pulsing background blobs */
+.animate-pulse-slow {
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1) translate(0px, 0px);
+    opacity: 0.4;
+  }
+  33% {
+    transform: scale(1.1) translate(15px, -15px);
+    opacity: 0.6;
+  }
+  66% {
+    transform: scale(0.95) translate(-10px, 10px);
+    opacity: 0.4;
+  }
+}
+
+/* Intersection Observer Reveal Styles */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide in from left */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide in from right */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Button Ripple effect styling */
+.ripple {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-effect 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Page transition cover animation */
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-primary);
+  transform: translateY(-100%);
+  z-index: 9999;
+  transition: transform var(--transition-slow) ease-in-out;
+}
+
+.page-transition-overlay.transitioning {
+  transform: translateY(0);
+}

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusHub | Student Marketplace</title>
+  <meta name="description" content="Buy and sell textbooks, calculators, electronics, and hostelling supplies directly with other students.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  
+  <!-- Theme early load -->
+  <script src="../js/theme.js"></script>
+  
+  <style>
+    /* Favorite button overlay on image */
+    .fav-btn {
+      position: absolute;
+      top: var(--spacing-sm);
+      right: var(--spacing-sm);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: var(--spacing-xs);
+      cursor: pointer;
+      color: var(--color-text-muted);
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .fav-btn:hover {
+      color: var(--color-error);
+      transform: scale(1.1);
+    }
+
+    .fav-btn.active {
+      color: var(--color-error);
+      border-color: var(--color-error-light);
+    }
+
+    /* Product Grid spacing and image sizes */
+    .market-img-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .market-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-normal);
+    }
+
+    .card:hover .market-img-container img {
+      transform: scale(1.03);
+    }
+
+    /* Chat Simulation Panel */
+    .chat-container {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      height: 260px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: var(--spacing-md);
+      background-color: var(--color-background);
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      padding: var(--spacing-md);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .chat-bubble {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-md);
+      max-width: 80%;
+      font-size: 0.85rem;
+    }
+
+    .chat-bubble-received {
+      background-color: var(--color-surface);
+      color: var(--color-text-primary);
+      align-self: flex-start;
+      border: 1px solid var(--color-border);
+    }
+
+    .chat-bubble-sent {
+      background-color: var(--color-primary);
+      color: white;
+      align-self: flex-end;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-sm);
+      border-top: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container navbar">
+      <div class="nav-brand" onclick="location.href='home.html'">CampusHub</div>
+      <nav class="nav-links">
+        <a href="home.html" class="nav-link">Home</a>
+        <a href="notes.html" class="nav-link">Notes</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="lost-found.html" class="nav-link">Lost & Found</a>
+        <a href="marketplace.html" class="nav-link active">Marketplace</a>
+        <a href="complaints.html" class="nav-link">Complaints</a>
+        <a href="notice-board.html" class="nav-link">Notice Board</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="btn btn-secondary btn-icon-only" aria-label="Toggle Theme"></button>
+        
+        <div class="bell-container">
+          <button class="btn btn-secondary btn-icon-only" aria-label="Notifications">
+            <span class="bell-badge"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          <div class="notification-dropdown">
+            <div class="notification-header">Latest Announcements</div>
+            <div class="notification-list" id="header-notices-list"></div>
+            <div style="padding: var(--spacing-sm); text-align: center; border-top: 1px solid var(--color-border);">
+              <a href="notice-board.html" style="font-size: 0.85rem; font-weight: 600;">View All Notices</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-container">
+          <div class="profile-avatar">S</div>
+          <div class="profile-dropdown">
+            <div style="padding: var(--spacing-md); border-bottom: 1px solid var(--color-border);">
+              <div style="font-weight: 600;">Student User</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-muted);">student@university.edu</div>
+            </div>
+            <a class="profile-dropdown-item" href="complaints.html"><span>My Complaints</span></a>
+            <a class="profile-dropdown-item" href="lost-found.html"><span>My Claims</span></a>
+            <a class="profile-dropdown-item" href="marketplace.html"><span>My Listings</span></a>
+          </div>
+        </div>
+
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Marketplace Content -->
+  <main class="container">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-xl);" class="reveal">
+      <div>
+        <h1 class="section-title" style="text-align: left; margin: 0;">Student Marketplace</h1>
+        <p style="margin: 0; color: var(--color-text-secondary);">Direct peer-to-peer campus trades. Buy & Sell items securely.</p>
+      </div>
+      <button class="btn btn-primary" id="open-sell-modal-btn">
+        + List Item For Sale
+      </button>
+    </div>
+
+    <!-- Filters and Searches Card -->
+    <section class="card reveal" style="margin-bottom: var(--spacing-xl);">
+      <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; align-items: center;">
+        
+        <!-- Search bar -->
+        <div class="search-container" style="flex-grow: 2; min-width: 260px; margin: 0;">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="market-search-input" class="form-control search-input" placeholder="Search marketplace by name or details...">
+        </div>
+
+        <!-- Category select -->
+        <div style="flex-grow: 1; min-width: 150px;">
+          <select id="market-category-select" class="form-control" aria-label="Filter by Category">
+            <option value="all">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Books">Books</option>
+            <option value="Academic Kits">Academic Kits</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+        <!-- Sort Price -->
+        <div style="flex-grow: 1; min-width: 150px;">
+          <select id="market-price-select" class="form-control" aria-label="Sort by Price">
+            <option value="newest">Sort by: Newest</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
+
+        <!-- Favorites view toggle -->
+        <button id="market-favs-btn" class="btn btn-secondary d-flex align-center gap-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          <span>View Favorites</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Listings Grid -->
+    <section id="market-grid" class="responsive-grid reveal">
+      <div class="card skeleton-card skeleton"></div>
+      <div class="card skeleton-card skeleton"></div>
+      <div class="card skeleton-card skeleton"></div>
+    </section>
+
+    <!-- Modal for adding items -->
+    <div id="sell-modal" class="modal-overlay">
+      <form class="modal" id="sell-item-form">
+        <div class="modal-header">
+          <h2>Sell Item on Marketplace</h2>
+          <button type="button" class="modal-close-btn" id="close-sell-modal-btn">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <!-- Item Name -->
+          <div class="form-group">
+            <label class="form-label" for="m-name">Item Name</label>
+            <input type="text" id="m-name" name="name" class="form-control" placeholder="e.g. CASIO fx-991EX Calculator">
+          </div>
+
+          <!-- Price -->
+          <div class="form-group">
+            <label class="form-label" for="m-price">Price (₹)</label>
+            <input type="number" id="m-price" name="price" class="form-control" placeholder="Price in INR" min="1">
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label class="form-label" for="m-category">Category</label>
+            <select id="m-category" name="category" class="form-control">
+              <option value="Electronics">Electronics</option>
+              <option value="Books">Books</option>
+              <option value="Academic Kits">Academic Kits</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label" for="m-desc">Description</label>
+            <textarea id="m-desc" name="description" class="form-control" placeholder="Describe physical condition, usage time, charging cables, packaging..."></textarea>
+          </div>
+
+          <!-- Contact Number -->
+          <div class="form-group">
+            <label class="form-label" for="m-contact">Contact Phone</label>
+            <input type="tel" id="m-contact" name="contact" class="form-control" placeholder="Your contact phone">
+          </div>
+
+          <!-- Image URL -->
+          <div class="form-group">
+            <label class="form-label" for="m-image">Image URL (Optional)</label>
+            <input type="url" id="m-image" name="image" class="form-control" placeholder="Link to product photo online">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel-sell-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">List Item</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Contact Seller Chat Modal -->
+    <div id="chat-modal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="chat-seller-title">Contact Seller</h2>
+          <button type="button" class="modal-close-btn" id="close-chat-btn">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="chat-container">
+            <div class="chat-messages" id="chat-messages-container">
+              <!-- Render dialog dynamically -->
+            </div>
+            
+            <form class="chat-input-row" id="chat-input-form">
+              <input type="text" id="chat-user-message" class="form-control" placeholder="Type a message to the seller..." style="flex-grow: 1; border-radius: var(--radius-sm);" required>
+              <button type="submit" class="btn btn-primary btn-sm">Send</button>
+            </form>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--color-text-muted); text-align: center;">
+            Trades take place directly on campus. Do not share banking credentials online.
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary w-100" id="close-chat-footer-btn">Close Dialogue</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-info">
+        <div class="nav-brand" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="location.href='home.html'">CampusHub</div>
+        <p>A decentralized student life and resource utility platform coordinating classroom files, local marketplaces, lost items, and notice boards.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Pages</h4>
+        <div class="footer-links">
+          <a href="home.html" class="footer-link">Dashboard</a>
+          <a href="notes.html" class="footer-link">Notes Library</a>
+          <a href="events.html" class="footer-link">Campus Events</a>
+          <a href="notice-board.html" class="footer-link">Notice Board</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Support</h4>
+        <div class="footer-links">
+          <a href="complaints.html" class="footer-link">Complaint Portal</a>
+          <a href="lost-found.html" class="footer-link">Lost & Found</a>
+          <a href="#" class="footer-link">Grievance Cell</a>
+          <a href="#" class="footer-link">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Contact</h4>
+        <div class="footer-links" style="color: var(--color-text-secondary); font-size: 0.9rem;">
+          <p>📍 Admin Building, Wing B</p>
+          <p>📧 support@campushub.edu</p>
+          <p>📞 +1 (555) 019-2834</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 CampusHub. Built for student body excellence.</p>
+      <div class="d-flex gap-md">
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Terms of Service</a>
+        <a href="#" class="footer-link" style="font-size: 0.85rem;">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/search.js"></script>
+  <script src="../js/validation.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/marketplace.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Page Not Found | CampusHub</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  
+  <!-- Theme early load -->
+  <script src="../js/theme.js"></script>
+  
+  <style>
+    .error-wrapper {
+      min-height: calc(100vh - var(--navbar-height) - 200px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: var(--spacing-xxl) var(--spacing-md);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container navbar">
+      <div class="nav-brand" onclick="location.href='home.html'">CampusHub</div>
+      <nav class="nav-links">
+        <a href="home.html" class="nav-link">Home</a>
+        <a href="notes.html" class="nav-link">Notes</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="lost-found.html" class="nav-link">Lost & Found</a>
+        <a href="marketplace.html" class="nav-link">Marketplace</a>
+        <a href="complaints.html" class="nav-link">Complaints</a>
+        <a href="notice-board.html" class="nav-link">Notice Board</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="btn btn-secondary btn-icon-only" aria-label="Toggle Theme"></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Error body -->
+  <main class="container">
+    <div class="error-wrapper reveal">
+      <div style="font-size: 6rem; font-family: var(--font-display); font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: var(--spacing-md);">
+        404
+      </div>
+      <h2 style="margin-bottom: var(--spacing-sm);">Classroom Not Found</h2>
+      <p style="max-width: 480px; margin-bottom: var(--spacing-xl);">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+      
+      <a href="home.html" class="btn btn-primary">Return to Dashboard</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-bottom" style="border-top: none;">
+      <p>&copy; 2026 CampusHub. Built for student body excellence.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/ui.js"></script>
+</body>
+</html>

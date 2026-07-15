@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to CampusHub | Your Central Campus Portal</title>
+  <meta name="description" content="CampusHub is a centralized platform for college students to access resources, notices, events, lost & found, and marketplace.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <!-- Theme early load -->
+  <script src="js/theme.js"></script>
+  
+  <style>
+    /* Unique styling for landing page */
+    .landing-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: var(--spacing-xxl) var(--spacing-md);
+    }
+    
+    .blob {
+      position: absolute;
+      border-radius: var(--radius-full);
+      filter: blur(80px);
+      z-index: -1;
+    }
+    
+    .blob-primary {
+      top: -10%;
+      left: -10%;
+      width: 40vw;
+      height: 40vw;
+      background-color: var(--color-primary-light);
+    }
+    
+    .blob-secondary {
+      bottom: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      background-color: rgba(126, 58, 242, 0.08);
+    }
+    
+    .landing-card {
+      max-width: 800px;
+      text-align: center;
+      padding: var(--spacing-xxl);
+      z-index: 10;
+    }
+    
+    .landing-logo {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .landing-tagline {
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-md);
+      margin: var(--spacing-xl) 0 var(--spacing-xxl) 0;
+    }
+    
+    .feature-item {
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      transition: all var(--transition-normal);
+    }
+    
+    .feature-item:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-4px);
+    }
+    
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .feature-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .feature-desc {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      .landing-logo {
+        font-size: 2.25rem;
+      }
+      .landing-tagline {
+        font-size: 1.1rem;
+      }
+      .landing-card {
+        padding: var(--spacing-lg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="landing-wrapper">
+    <div class="blob blob-primary animate-pulse-slow"></div>
+    <div class="blob blob-secondary animate-pulse-slow" style="animation-delay: 2s;"></div>
+    
+    <div class="card landing-card reveal">
+      <div class="landing-logo">CampusHub</div>
+      <div class="landing-tagline">
+        The ultimate centralized utility ecosystem designed to enrich student life, simplify resource sharing, and build a connected university community.
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon">📚</div>
+          <div class="feature-title">Academic Notes</div>
+          <p class="feature-desc">Download, bookmark, and share semester-wise subject study guides.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">Lost & Found</div>
+          <p class="feature-desc">Report lost possessions and find misplaced items instantly on campus.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🤝</div>
+          <div class="feature-title">Student Market</div>
+          <p class="feature-desc">Buy & sell textbooks, calculators, electronics directly with peers.</p>
+        </div>
+      </div>
+      
+      <div class="hero-buttons">
+        <a href="pages/home.html" class="btn btn-primary btn-lg">
+          Enter Campus Portal
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/ui.js"></script>
+</body>
+</html>
