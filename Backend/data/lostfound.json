@@ -1,5 +1,17 @@
 [
   {
+    "id": "lost-1784202572938-bk0a0g",
+    "type": "lost",
+    "name": "DSA Book",
+    "category": "Accessories",
+    "description": "It has a blue cover ",
+    "location": "near the library block",
+    "contact": "2345674578",
+    "image": "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=800&auto=format&fit=crop",
+    "createdAt": "2026-07-16T11:49:32.943Z",
+    "updatedAt": "2026-07-16T11:49:32.943Z"
+  },
+  {
     "id": "lost-1",
     "type": "lost",
     "name": "iPhone 13 (Midnight Blue)",
