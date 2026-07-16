@@ -1,7 +1,4 @@
 
-# CampusHub
-CampusHub is a responsive student resource portal built with HTML, CSS, and JavaScript, featuring Lost &amp; Found, Notes Sharing, Events, Marketplace, and Complaint Management.
-
 # CampusHub 🎓
 
 CampusHub is a premium, modern, and highly responsive centralized web portal designed for college students to coordinate course materials, campus circulars, local marketplaces, lost possessions, and grievance reports. 
