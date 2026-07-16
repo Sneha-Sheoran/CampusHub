@@ -1,0 +1,10 @@
+{
+  "name": "campushub",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix Backend run dev",
+    "start": "npm --prefix Backend run start",
+    "install:backend": "npm --prefix Backend install"
+  }
+}

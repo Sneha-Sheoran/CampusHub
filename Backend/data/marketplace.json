@@ -1,0 +1,14 @@
+[
+  {
+    "id": "market-1",
+    "name": "Dell 24-inch SE2422H Monitor",
+    "price": 20000,
+    "category": "Electronics",
+    "description": "Perfect working condition 1080p 75Hz monitor.",
+    "contact": "9000110022",
+    "image": "../images/market_monitor.png",
+    "seller": "Alex Carter",
+    "createdAt": "2026-07-14T10:00:00.000Z",
+    "updatedAt": "2026-07-14T10:00:00.000Z"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "name": "campushub-backend",
+  "version": "1.0.0",
+  "description": "Production-ready REST API for the CampusHub student portal",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "rest-api",
+    "campushub"
+  ],
+  "author": "CampusHub",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.1"
+  }
+}

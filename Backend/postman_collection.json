@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "CampusHub API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Notes",
+      "item": [
+        { "name": "GET Notes", "request": { "method": "GET", "url": "{{baseUrl}}/api/notes" } },
+        { "name": "POST Note", "request": { "method": "POST", "url": "{{baseUrl}}/api/notes", "body": { "mode": "raw", "raw": "{\n  \"subject\": \"New Topic\",\n  \"code\": \"CS-404\",\n  \"semester\": \"4th Semester\",\n  \"department\": \"Computer Science\",\n  \"description\": \"Sample note\",\n  \"author\": \"Student\"\n}" } } },
+        { "name": "PUT Note", "request": { "method": "PUT", "url": "{{baseUrl}}/api/notes/:id" } },
+        { "name": "DELETE Note", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/notes/:id" } }
+      ]
+    },
+    {
+      "name": "Lost Items",
+      "item": [
+        { "name": "GET Lost Items", "request": { "method": "GET", "url": "{{baseUrl}}/api/lost-items" } },
+        { "name": "POST Lost Item", "request": { "method": "POST", "url": "{{baseUrl}}/api/lost-items", "body": { "mode": "raw", "raw": "{\n  \"type\": \"lost\",\n  \"name\": \"Backpack\",\n  \"category\": \"Accessories\",\n  \"description\": \"Black backpack\",\n  \"location\": \"Library\",\n  \"contact\": \"9876543210\"\n}" } } },
+        { "name": "PUT Lost Item", "request": { "method": "PUT", "url": "{{baseUrl}}/api/lost-items/:id" } },
+        { "name": "DELETE Lost Item", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/lost-items/:id" } }
+      ]
+    },
+    {
+      "name": "Marketplace",
+      "item": [
+        { "name": "GET Marketplace", "request": { "method": "GET", "url": "{{baseUrl}}/api/marketplace" } },
+        { "name": "POST Item", "request": { "method": "POST", "url": "{{baseUrl}}/api/marketplace", "body": { "mode": "raw", "raw": "{\n  \"name\": \"Book\",\n  \"price\": 450,\n  \"category\": \"Books\",\n  \"description\": \"Used engineering book\",\n  \"contact\": \"9000110022\"\n}" } } },
+        { "name": "PUT Item", "request": { "method": "PUT", "url": "{{baseUrl}}/api/marketplace/:id" } },
+        { "name": "DELETE Item", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/marketplace/:id" } }
+      ]
+    },
+    {
+      "name": "Complaints",
+      "item": [
+        { "name": "GET Complaints", "request": { "method": "GET", "url": "{{baseUrl}}/api/complaints" } },
+        { "name": "POST Complaint", "request": { "method": "POST", "url": "{{baseUrl}}/api/complaints", "body": { "mode": "raw", "raw": "{\n  \"title\": \"Cafeteria Issue\",\n  \"category\": \"infrastructure\",\n  \"description\": \"Long queues\"\n}" } } },
+        { "name": "PUT Complaint", "request": { "method": "PUT", "url": "{{baseUrl}}/api/complaints/:id" } },
+        { "name": "DELETE Complaint", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/complaints/:id" } }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        { "name": "GET Events", "request": { "method": "GET", "url": "{{baseUrl}}/api/events" } },
+        { "name": "POST Event", "request": { "method": "POST", "url": "{{baseUrl}}/api/events", "body": { "mode": "raw", "raw": "{\n  \"title\": \"Seminar\",\n  \"category\": \"seminars\",\n  \"description\": \"AI Seminar\",\n  \"date\": \"2026-08-20T10:00:00\",\n  \"location\": \"Main Hall\"\n}" } } },
+        { "name": "PUT Event", "request": { "method": "PUT", "url": "{{baseUrl}}/api/events/:id" } },
+        { "name": "DELETE Event", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/events/:id" } }
+      ]
+    },
+    {
+      "name": "Notices",
+      "item": [
+        { "name": "GET Notices", "request": { "method": "GET", "url": "{{baseUrl}}/api/notices" } },
+        { "name": "POST Notice", "request": { "method": "POST", "url": "{{baseUrl}}/api/notices", "body": { "mode": "raw", "raw": "{\n  \"title\": \"New Notice\",\n  \"category\": \"academic\",\n  \"content\": \"Check the notice board\"\n}" } } },
+        { "name": "PUT Notice", "request": { "method": "PUT", "url": "{{baseUrl}}/api/notices/:id" } },
+        { "name": "DELETE Notice", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/notices/:id" } }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" }
+  ]
+}

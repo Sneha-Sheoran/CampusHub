@@ -5,32 +5,34 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const Dashboard = {
-  init: function () {
-    this.renderHeaderNotices();
-    this.renderHomePreviews();
+  init: async function () {
+    await this.renderHeaderNotices();
+    await this.renderHomePreviews();
     this.initStatsCounter();
   },
 
   // 1. Render notifications in header bell
-  renderHeaderNotices: function () {
+  renderHeaderNotices: async function () {
     const listEl = document.getElementById('header-notices-list');
     if (!listEl) return;
 
-    const notices = window.StorageManager.get(window.STORAGE_KEYS.NOTICES) || [];
-    const importantNotices = notices.filter(n => n.important).slice(0, 3);
+    try {
+      const response = await window.API.notices.list('?sort=oldest');
+      const notices = response.data || [];
+      const importantNotices = notices.filter(n => n.important).slice(0, 3);
     
-    if (importantNotices.length === 0) {
-      listEl.innerHTML = `
-        <div style="padding: var(--spacing-md); text-align: center; color: var(--color-text-muted); font-size: 0.85rem;">
-          No new notifications.
-        </div>
-      `;
-      const badge = document.querySelector('.bell-badge');
-      if (badge) badge.style.display = 'none';
-      return;
-    }
+      if (importantNotices.length === 0) {
+        listEl.innerHTML = `
+          <div style="padding: var(--spacing-md); text-align: center; color: var(--color-text-muted); font-size: 0.85rem;">
+            No new notifications.
+          </div>
+        `;
+        const badge = document.querySelector('.bell-badge');
+        if (badge) badge.style.display = 'none';
+        return;
+      }
 
-    listEl.innerHTML = importantNotices.map(notice => `
+      listEl.innerHTML = importantNotices.map(notice => `
       <div class="notification-item" onclick="location.href='notice-board.html'">
         <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
           <span class="badge badge-danger" style="padding: 1px 4px; font-size: 0.65rem;">Important</span>
@@ -41,15 +43,19 @@ const Dashboard = {
           ${notice.content}
         </div>
       </div>
-    `).join('');
+      `).join('');
+    } catch (error) {
+      listEl.innerHTML = '<div style="padding: var(--spacing-md); text-align: center; color: var(--color-text-muted); font-size: 0.85rem;">Unable to load notices.</div>';
+    }
   },
 
   // 2. Render all previews on Home Dashboard
-  renderHomePreviews: function () {
+  renderHomePreviews: async function () {
     // 2a. Notices
     const noticesGrid = document.getElementById('home-notices-grid');
     if (noticesGrid) {
-      const notices = window.StorageManager.get(window.STORAGE_KEYS.NOTICES) || [];
+      const response = await window.API.notices.list('?sort=oldest');
+      const notices = response.data || [];
       const recentNotices = notices.slice(0, 3);
       
       if (recentNotices.length === 0) {
@@ -73,7 +79,8 @@ const Dashboard = {
     // 2b. Events
     const eventsGrid = document.getElementById('home-events-grid');
     if (eventsGrid) {
-      const events = window.StorageManager.get(window.STORAGE_KEYS.EVENTS) || [];
+      const response = await window.API.events.list('?sort=oldest');
+      const events = response.data || [];
       const upcomingEvents = events.slice(0, 3);
 
       if (upcomingEvents.length === 0) {
@@ -96,7 +103,8 @@ const Dashboard = {
     // 2c. Lost & Found Items
     const lostfoundGrid = document.getElementById('home-lostfound-grid');
     if (lostfoundGrid) {
-      const items = window.StorageManager.get(window.STORAGE_KEYS.LOST_FOUND) || [];
+      const response = await window.API.lostItems.list('?sort=oldest');
+      const items = response.data || [];
       const recentItems = items.slice(0, 3);
 
       if (recentItems.length === 0) {
@@ -118,7 +126,8 @@ const Dashboard = {
     // 2d. Marketplace
     const marketplaceGrid = document.getElementById('home-marketplace-grid');
     if (marketplaceGrid) {
-      const items = window.StorageManager.get(window.STORAGE_KEYS.MARKETPLACE) || [];
+      const response = await window.API.marketplace.list('?sort=oldest');
+      const items = response.data || [];
       const recentMarket = items.slice(0, 3);
 
       if (recentMarket.length === 0) {

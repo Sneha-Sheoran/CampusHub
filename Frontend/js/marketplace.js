@@ -11,16 +11,24 @@ const Marketplace = {
   activeChatSeller: '',
   activeChatItemName: '',
 
-  init: function () {
-    this.loadData();
+  init: async function () {
+    await this.loadData();
     this.setupSellModal();
     this.setupChatModal();
     this.setupListeners();
     this.render();
   },
 
-  loadData: function () {
-    this.list = window.StorageManager.get(window.STORAGE_KEYS.MARKETPLACE) || [];
+  loadData: async function () {
+    try {
+      const response = await window.API.marketplace.list('');
+      this.list = response.data || [];
+      this.filteredList = [...this.list];
+    } catch (error) {
+      this.list = [];
+      this.filteredList = [];
+      console.error('Failed to load marketplace items', error);
+    }
   },
 
   setupSellModal: function () {
@@ -47,10 +55,9 @@ const Marketplace = {
     if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
 
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validate required fields
         const required = ['name', 'price', 'description', 'contact'];
         const isValid = window.FormValidator.validateRequired(form, required);
 
@@ -69,22 +76,24 @@ const Marketplace = {
         }
 
         const newItem = {
-          name: name,
-          price: price,
-          category: category,
+          name,
+          price,
+          category,
           description: desc,
-          contact: contact,
-          image: image,
-          seller: 'Alex Carter', // Mock User
-          date: new Date().toISOString().split('T')[0]
+          contact,
+          image,
+          seller: 'Alex Carter'
         };
 
-        window.StorageManager.add(window.STORAGE_KEYS.MARKETPLACE, newItem);
-        window.showToast('Item listed for sale successfully!', 'success');
-
-        this.loadData();
-        this.filterAndSort();
-        closeModal();
+        try {
+          await window.API.marketplace.create(newItem);
+          window.showToast('Item listed for sale successfully!', 'success');
+          await this.loadData();
+          this.filterAndSort();
+          closeModal();
+        } catch (error) {
+          window.showToast(error.message || 'Unable to list item.', 'error');
+        }
       });
     }
   },

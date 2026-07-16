@@ -1,0 +1,14 @@
+[
+  {
+    "id": "lost-1",
+    "type": "lost",
+    "name": "iPhone 13 (Midnight Blue)",
+    "category": "Electronics",
+    "description": "Lost iPhone 13 with a black Spigen bumper cover.",
+    "location": "Central Library Hall B",
+    "contact": "9876543210",
+    "image": "../images/lost_iphone.png",
+    "createdAt": "2026-07-14T10:00:00.000Z",
+    "updatedAt": "2026-07-14T10:00:00.000Z"
+  }
+]

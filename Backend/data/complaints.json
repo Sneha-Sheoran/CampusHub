@@ -1,0 +1,12 @@
+[
+  {
+    "id": "complaint-1",
+    "title": "Hostel Block C Wi-Fi Frequent Disconnections",
+    "category": "hostel",
+    "description": "The Wi-Fi router on the 3rd floor of Block C repeatedly resets every 10-15 minutes.",
+    "status": "pending",
+    "trackingId": "CH-COMP-1928",
+    "createdAt": "2026-07-14T10:00:00.000Z",
+    "updatedAt": "2026-07-14T10:00:00.000Z"
+  }
+]

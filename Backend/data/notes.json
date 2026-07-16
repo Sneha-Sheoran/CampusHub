@@ -1,0 +1,16 @@
+[
+  {
+    "id": "note-1",
+    "subject": "Database Management Systems",
+    "code": "CS-403",
+    "semester": "4th Semester",
+    "department": "Computer Science",
+    "description": "Detailed study notes covering ER diagrams, normalization, SQL and transactions.",
+    "author": "Dr. Emily Watson",
+    "downloads": 328,
+    "bookmarkCount": 15,
+    "size": "3.8 MB",
+    "createdAt": "2026-07-14T10:00:00.000Z",
+    "updatedAt": "2026-07-14T10:00:00.000Z"
+  }
+]

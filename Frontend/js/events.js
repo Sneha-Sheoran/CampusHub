@@ -10,16 +10,23 @@ const EventsApp = {
   selectedCategory: 'all',
   timerInterval: null,
 
-  init: function () {
-    this.loadEvents();
+  init: async function () {
+    await this.loadEvents();
     this.renderFeatured();
     this.renderEventsGrid();
     this.setupListeners();
   },
 
-  loadEvents: function () {
-    this.list = window.StorageManager.get(window.STORAGE_KEYS.EVENTS) || [];
-    this.filteredList = [...this.list];
+  loadEvents: async function () {
+    try {
+      const response = await window.API.events.list('');
+      this.list = response.data || [];
+      this.filteredList = [...this.list];
+    } catch (error) {
+      this.list = [];
+      this.filteredList = [];
+      console.error('Failed to load events', error);
+    }
   },
 
   renderFeatured: function () {

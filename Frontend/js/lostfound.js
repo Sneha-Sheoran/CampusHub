@@ -9,15 +9,23 @@ const LostFoundApp = {
   filteredList: [],
   selectedType: 'all',
 
-  init: function () {
-    this.loadData();
+  init: async function () {
+    await this.loadData();
     this.setupDrawer();
     this.setupListeners();
     this.render();
   },
 
-  loadData: function () {
-    this.list = window.StorageManager.get(window.STORAGE_KEYS.LOST_FOUND) || [];
+  loadData: async function () {
+    try {
+      const response = await window.API.lostItems.list('');
+      this.list = response.data || [];
+      this.filteredList = [...this.list];
+    } catch (error) {
+      this.list = [];
+      this.filteredList = [];
+      console.error('Failed to load lost items', error);
+    }
   },
 
   setupDrawer: function () {
@@ -45,16 +53,14 @@ const LostFoundApp = {
 
     // Form Submit
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validate required inputs
         const required = ['name', 'description', 'location', 'contact'];
         const isValid = window.FormValidator.validateRequired(form, required);
         
         if (!isValid) return;
 
-        // Gather form fields
         const formData = new FormData(form);
         const itemType = formData.get('type');
         const itemName = formData.get('name');
@@ -64,7 +70,6 @@ const LostFoundApp = {
         const itemContact = formData.get('contact');
         let itemImage = formData.get('image').trim();
 
-        // Assign placeholder image if URL is omitted
         if (!itemImage) {
           itemImage = this.getDefaultCategoryImage(itemCategory);
         }
@@ -76,16 +81,18 @@ const LostFoundApp = {
           description: itemDesc,
           location: itemLoc,
           contact: itemContact,
-          image: itemImage,
-          date: new Date().toISOString().split('T')[0]
+          image: itemImage
         };
 
-        window.StorageManager.add(window.STORAGE_KEYS.LOST_FOUND, newItem);
-        window.showToast(`${itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!`, 'success');
-        
-        this.loadData();
-        this.filterAndSearch();
-        closeDrawer();
+        try {
+          await window.API.lostItems.create(newItem);
+          window.showToast(`${itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!`, 'success');
+          await this.loadData();
+          this.filterAndSearch();
+          closeDrawer();
+        } catch (error) {
+          window.showToast(error.message || 'Unable to submit report.', 'error');
+        }
       });
     }
   },

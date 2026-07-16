@@ -8,14 +8,22 @@ const Complaints = {
   list: [],
   filteredList: [],
 
-  init: function () {
-    this.loadData();
+  init: async function () {
+    await this.loadData();
     this.setupListeners();
     this.render();
   },
 
-  loadData: function () {
-    this.list = window.StorageManager.get(window.STORAGE_KEYS.COMPLAINTS) || [];
+  loadData: async function () {
+    try {
+      const response = await window.API.complaints.list('');
+      this.list = response.data || [];
+      this.filteredList = [...this.list];
+    } catch (error) {
+      this.list = [];
+      this.filteredList = [];
+      console.error('Failed to load complaints', error);
+    }
   },
 
   setupListeners: function () {
@@ -25,7 +33,7 @@ const Complaints = {
 
     // Submit Action
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const required = ['title', 'description'];
@@ -37,26 +45,22 @@ const Complaints = {
         const title = formData.get('title');
         const category = formData.get('category');
         const desc = formData.get('description');
-        
-        // Generate random tracking ID
-        const trackingNum = Math.floor(1000 + Math.random() * 9000);
-        const trackingId = `CH-COMP-${trackingNum}`;
 
         const newComplaint = {
-          title: title,
-          category: category,
-          description: desc,
-          status: 'pending',
-          date: new Date().toISOString().split('T')[0],
-          trackingId: trackingId
+          title,
+          category,
+          description: desc
         };
 
-        window.StorageManager.add(window.STORAGE_KEYS.COMPLAINTS, newComplaint);
-        window.showToast(`Complaint filed! Tracking ID: ${trackingId}`, 'success');
-        
-        form.reset();
-        this.loadData();
-        this.filterAndSearch();
+        try {
+          const response = await window.API.complaints.create(newComplaint);
+          window.showToast(`Complaint filed! Tracking ID: ${response.data.trackingId}`, 'success');
+          form.reset();
+          await this.loadData();
+          this.filterAndSearch();
+        } catch (error) {
+          window.showToast(error.message || 'Unable to submit complaint.', 'error');
+        }
       });
     }
 
@@ -77,7 +81,7 @@ const Complaints = {
     });
   },
 
-  simulateStatusCycle: function (id) {
+  simulateStatusCycle: async function (id) {
     const complaint = this.list.find(c => c.id === id);
     if (!complaint) return;
 
@@ -90,11 +94,13 @@ const Complaints = {
       nextStatus = 'pending';
     }
 
-    const updated = window.StorageManager.update(window.STORAGE_KEYS.COMPLAINTS, id, { status: nextStatus });
-    if (updated) {
+    try {
+      await window.API.complaints.update(id, { status: nextStatus });
       window.showToast(`Updated status of ${complaint.trackingId} to: ${nextStatus.toUpperCase()}`, 'success');
-      this.loadData();
+      await this.loadData();
       this.filterAndSearch();
+    } catch (error) {
+      window.showToast(error.message || 'Unable to update complaint.', 'error');
     }
   },
 

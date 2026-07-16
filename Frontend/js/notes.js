@@ -9,14 +9,22 @@ const Notes = {
   filteredList: [],
   showingOnlyBookmarks: false,
 
-  init: function () {
-    this.loadNotes();
+  init: async function () {
     this.setupListeners();
+    await this.loadNotes();
     this.render();
   },
 
-  loadNotes: function () {
-    this.list = window.StorageManager.get(window.STORAGE_KEYS.NOTES) || [];
+  loadNotes: async function () {
+    try {
+      const response = await window.API.notes.list('');
+      this.list = response.data || [];
+      this.filteredList = [...this.list];
+    } catch (error) {
+      this.list = [];
+      this.filteredList = [];
+      console.error('Failed to load notes', error);
+    }
   },
 
   setupListeners: function () {
@@ -203,12 +211,11 @@ const Notes = {
           modal.classList.remove('active');
           
           // Increment downloads count in local storage
-          const notesList = window.StorageManager.get(window.STORAGE_KEYS.NOTES) || [];
-          const noteIdx = notesList.findIndex(n => n.id === id);
-          if (noteIdx !== -1) {
-            notesList[noteIdx].downloads += 1;
-            window.StorageManager.set(window.STORAGE_KEYS.NOTES, notesList);
-            this.list = notesList;
+          const note = this.list.find(n => n.id === id);
+          if (note) {
+            note.downloads += 1;
+            window.API.notes.update(id, { downloads: note.downloads }).catch(() => {});
+            this.list = this.list.map(item => item.id === id ? note : item);
           }
 
           window.showToast('Note package downloaded successfully!', 'success');
