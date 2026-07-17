@@ -67,8 +67,6 @@
   --navbar-height: 72px;
   --max-width: 1280px;
 }
-
-<<<<<<< HEAD
 /* Light Theme Content Override */
 body:not(.dark-theme) {
   --color-background: #0f172a;
@@ -84,8 +82,6 @@ body:not(.dark-theme) {
   --color-border-hover: #475569;
   --color-glass-border: rgba(255, 255, 255, 0.08);
 }
-=======
->>>>>>> fb37eebfc875aacd5017ca097a9f801e9adb3bab
 
 /* Dark Theme Colors Override */
 body.dark-theme {
