@@ -44,7 +44,7 @@ const EventsApp = {
       <div class="featured-content">
         <span class="badge badge-primary" style="align-self: flex-start; margin-bottom: var(--spacing-sm); font-size: 0.8rem;">FEATURED EVENT</span>
         <h2 style="font-size: 2.25rem; font-weight: 800; margin-bottom: var(--spacing-xs);">${featuredEvent.title}</h2>
-        <p style="font-size: 1.05rem; opacity: 0.9; max-width: 600px; margin-bottom: var(--spacing-md);">${featuredEvent.description}</p>
+        <p class="featured-event-description" style="font-size: 1.05rem; opacity: 0.95; max-width: 600px; margin-bottom: var(--spacing-md);">${featuredEvent.description}</p>
         
         <div style="font-size: 0.95rem; display: flex; gap: var(--spacing-lg); margin-bottom: var(--spacing-md);">
           <span>📍 ${featuredEvent.location}</span>
