@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f3f6fb"/>
+  <rect x="150" y="90" width="500" height="320" rx="28" fill="#ffffff" stroke="#dbe4f0" stroke-width="4"/>
+  <rect x="180" y="128" width="440" height="92" rx="16" fill="#0f4c81"/>
+  <text x="208" y="180" font-size="34" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">STUDENT ID</text>
+  <circle cx="280" cy="290" r="72" fill="#e5e7eb"/>
+  <path d="M280 240c22 0 40 18 40 40 0 28-18 50-40 50s-40-22-40-50c0-22 18-40 40-40z" fill="#9ca3af"/>
+  <path d="M230 332c10-34 38-56 74-56 34 0 62 22 74 56" fill="#9ca3af"/>
+  <rect x="382" y="250" width="210" height="18" rx="9" fill="#d1d5db"/>
+  <rect x="382" y="286" width="180" height="16" rx="8" fill="#e5e7eb"/>
+  <rect x="382" y="318" width="150" height="16" rx="8" fill="#e5e7eb"/>
+  <rect x="382" y="350" width="140" height="16" rx="8" fill="#e5e7eb"/>
+  <text x="382" y="238" font-size="24" font-family="Arial, sans-serif" font-weight="700" fill="#1f2937">ALEX R.</text>
+  <text x="382" y="392" font-size="18" font-family="Arial, sans-serif" fill="#6b7280">Computer Science • 2026</text>
+</svg>

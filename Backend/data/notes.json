@@ -1,5 +1,19 @@
 [
   {
+    "id": "note-1784269456931-4cv36m",
+    "subject": "Operating Systems",
+    "code": "CS-404",
+    "semester": "4th Semester",
+    "department": "Computer Science",
+    "description": "OS Notes",
+    "author": "Sneha",
+    "downloads": 1,
+    "bookmarkCount": 0,
+    "size": "1.0 MB",
+    "createdAt": "2026-07-17T06:24:16.936Z",
+    "updatedAt": "2026-07-17T06:26:04.093Z"
+  },
+  {
     "id": "note-1",
     "subject": "Database Management Systems",
     "code": "CS-403",
@@ -12,5 +26,33 @@
     "size": "3.8 MB",
     "createdAt": "2026-07-14T10:00:00.000Z",
     "updatedAt": "2026-07-14T10:00:00.000Z"
+  },
+  {
+    "id": "note-2",
+    "subject": "Analog and Digital Communications",
+    "code": "EC-501",
+    "semester": "5th Semester",
+    "department": "Electronics",
+    "description": "Covers AM, FM, PCM, digital encoding schemes, and practical communication lab notes.",
+    "author": "Prof. David Miller",
+    "downloads": 199,
+    "bookmarkCount": 8,
+    "size": "6.1 MB",
+    "createdAt": "2026-07-13T09:30:00.000Z",
+    "updatedAt": "2026-07-17T05:57:53.535Z"
+  },
+  {
+    "id": "note-3",
+    "subject": "Environmental Engineering Basics",
+    "code": "CE-301",
+    "semester": "3rd Semester",
+    "department": "Civil",
+    "description": "Concise revision notes for water treatment, waste management, and environmental laws.",
+    "author": "Prof. Clara Oswald",
+    "downloads": 245,
+    "bookmarkCount": 19,
+    "size": "2.1 MB",
+    "createdAt": "2026-07-12T08:15:00.000Z",
+    "updatedAt": "2026-07-12T08:15:00.000Z"
   }
 ]

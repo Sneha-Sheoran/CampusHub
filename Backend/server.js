@@ -32,8 +32,10 @@ app.use('/api/notices', noticesRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`CampusHub API listening on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`CampusHub API listening on http://localhost:${PORT}`);
+  });
+}
 
 module.exports = app;

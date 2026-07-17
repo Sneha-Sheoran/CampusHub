@@ -8,5 +8,25 @@
     "trackingId": "CH-COMP-1928",
     "createdAt": "2026-07-14T10:00:00.000Z",
     "updatedAt": "2026-07-14T10:00:00.000Z"
+  },
+  {
+    "id": "complaint-2",
+    "title": "Water Cooler Filters in Block D Library",
+    "category": "infrastructure",
+    "description": "The water cooler adjacent to the reading room has a flashing replacement warning light.",
+    "status": "resolved",
+    "trackingId": "CH-COMP-1743",
+    "createdAt": "2026-07-10T11:00:00.000Z",
+    "updatedAt": "2026-07-10T11:00:00.000Z"
+  },
+  {
+    "id": "complaint-3",
+    "title": "Lecture Hall AC Not Cooling",
+    "category": "academic",
+    "description": "The air conditioning in Seminar Hall B is not cooling properly during evening lectures.",
+    "status": "under review",
+    "trackingId": "CH-COMP-2084",
+    "createdAt": "2026-07-08T08:45:00.000Z",
+    "updatedAt": "2026-07-08T08:45:00.000Z"
   }
 ]

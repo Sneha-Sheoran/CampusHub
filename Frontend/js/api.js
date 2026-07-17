@@ -1,21 +1,98 @@
 const API_BASE_URL = 'http://localhost:5000';
 
-async function apiRequest(endpoint, options = {}) {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    },
-    ...options
-  });
+function getStorageKey(endpoint) {
+  const normalized = endpoint.split('?')[0].replace(/^\/api\//, '');
 
-  const data = await response.json().catch(() => ({}));
+  const keyMap = {
+    notes: 'campushub-notes',
+    'lost-items': 'campushub-lostfound',
+    marketplace: 'campushub-marketplace',
+    complaints: 'campushub-complaints',
+    events: 'campushub-events',
+    notices: 'campushub-notices'
+  };
 
-  if (!response.ok) {
-    throw new Error(data.message || 'Request failed');
+  return keyMap[normalized] || null;
+}
+
+function getFallbackData(endpoint, method = 'GET', payload = null) {
+  const storageKey = getStorageKey(endpoint);
+  if (!storageKey || !window.StorageManager) {
+    return null;
   }
 
-  return data;
+  const list = window.StorageManager.get(storageKey) || [];
+  const normalizedEndpoint = endpoint.split('?')[0];
+
+  if (method === 'GET') {
+    return { success: true, data: list };
+  }
+
+  if (method === 'POST') {
+    const item = {
+      id: `${storageKey}-${Date.now()}`,
+      ...payload,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      date: payload.date || new Date().toISOString().slice(0, 10)
+    };
+
+    const updatedList = [item, ...list];
+    window.StorageManager.set(storageKey, updatedList);
+    return { success: true, message: 'Saved locally', data: item };
+  }
+
+  if (method === 'PUT') {
+    const id = normalizedEndpoint.split('/').pop();
+    const itemIndex = list.findIndex((entry) => entry.id === id);
+    if (itemIndex === -1) {
+      return null;
+    }
+
+    const updatedItem = { ...list[itemIndex], ...payload, updatedAt: new Date().toISOString() };
+    const updatedList = [...list];
+    updatedList[itemIndex] = updatedItem;
+    window.StorageManager.set(storageKey, updatedList);
+    return { success: true, data: updatedItem };
+  }
+
+  if (method === 'DELETE') {
+    const id = normalizedEndpoint.split('/').pop();
+    const updatedList = list.filter((entry) => entry.id !== id);
+    window.StorageManager.set(storageKey, updatedList);
+    return { success: true, message: 'Deleted locally' };
+  }
+
+  return null;
+}
+
+async function apiRequest(endpoint, options = {}) {
+  const method = (options.method || 'GET').toUpperCase();
+
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      },
+      ...options
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Request failed');
+    }
+
+    return data;
+  } catch (error) {
+    const fallbackData = getFallbackData(endpoint, method, options.body ? JSON.parse(options.body) : null);
+    if (fallbackData) {
+      return fallbackData;
+    }
+
+    throw error;
+  }
 }
 
 window.API = {

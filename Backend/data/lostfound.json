@@ -1,17 +1,5 @@
 [
   {
-    "id": "lost-1784202572938-bk0a0g",
-    "type": "lost",
-    "name": "DSA Book",
-    "category": "Accessories",
-    "description": "It has a blue cover ",
-    "location": "near the library block",
-    "contact": "2345674578",
-    "image": "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=800&auto=format&fit=crop",
-    "createdAt": "2026-07-16T11:49:32.943Z",
-    "updatedAt": "2026-07-16T11:49:32.943Z"
-  },
-  {
     "id": "lost-1",
     "type": "lost",
     "name": "iPhone 13 (Midnight Blue)",
@@ -22,5 +10,29 @@
     "image": "../images/lost_iphone.png",
     "createdAt": "2026-07-14T10:00:00.000Z",
     "updatedAt": "2026-07-14T10:00:00.000Z"
+  },
+  {
+    "id": "lost-2",
+    "type": "lost",
+    "name": "Black Umbrella",
+    "category": "Accessories",
+    "description": "A black umbrella with a silver handle was left near the engineering block entrance.",
+    "location": "Engineering Block Entrance",
+    "contact": "9000123456",
+    "image": "https://thumbs.dreamstime.com/b/authentic-photography-damaged-umbrella-broken-spokes-real-camera-capture-torn-black-parasol-isolated-white-background-432589472.jpg",
+    "createdAt": "2026-07-15T10:30:00.000Z",
+    "updatedAt": "2026-07-15T10:30:00.000Z"
+  },
+  {
+    "id": "found-1",
+    "type": "found",
+    "name": "Student ID Card",
+    "category": "Accessories",
+    "description": "Found a student ID card near the cafeteria with the name and department printed on it.",
+    "location": "Main Cafeteria",
+    "contact": "9112233445",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQooKQAvFqbK8louZ1LcpjX5-QYE4thVdUcFIBT-XVdFQ&s=10",
+    "createdAt": "2026-07-16T09:20:00.000Z",
+    "updatedAt": "2026-07-16T09:20:00.000Z"
   }
 ]

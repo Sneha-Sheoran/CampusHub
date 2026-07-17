@@ -10,5 +10,29 @@
     "seller": "Alex Carter",
     "createdAt": "2026-07-14T10:00:00.000Z",
     "updatedAt": "2026-07-14T10:00:00.000Z"
+  },
+  {
+    "id": "market-2",
+    "name": "Casio fx-991EX Scientific Calculator",
+    "price": 800,
+    "category": "Academic Kits",
+    "description": "Original ClassWiz scientific calculator ideal for engineering courses.",
+    "contact": "9888998899",
+    "image": "../images/market_calculator.png",
+    "seller": "Maria Diaz",
+    "createdAt": "2026-07-13T12:00:00.000Z",
+    "updatedAt": "2026-07-13T12:00:00.000Z"
+  },
+  {
+    "id": "market-3",
+    "name": "Introduction to Algorithms (CLRS Book)",
+    "price": 800,
+    "category": "Books",
+    "description": "Third edition, hardcover, excellent condition with minimal highlights.",
+    "contact": "9666554433",
+    "image": "../images/market_clrs_book.png",
+    "seller": "Sarah Connor",
+    "createdAt": "2026-07-11T09:00:00.000Z",
+    "updatedAt": "2026-07-11T09:00:00.000Z"
   }
 ]

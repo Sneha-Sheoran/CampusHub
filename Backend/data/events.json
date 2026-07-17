@@ -3,7 +3,7 @@
     "id": "event-1",
     "title": "HackOverFlow 4.0 - 36Hr Hackathon",
     "category": "hackathons",
-    "description": "The ultimate university hackathon.",
+    "description": "The ultimate university hackathon with mentors, networking, and real-world problem statements.",
     "date": "2026-08-15T09:00:00",
     "location": "Main Auditorium",
     "organizer": "Computer Science Department",
@@ -11,5 +11,31 @@
     "image": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1200&q=80&auto=format&fit=crop",
     "createdAt": "2026-07-14T10:00:00.000Z",
     "updatedAt": "2026-07-14T10:00:00.000Z"
+  },
+  {
+    "id": "event-2",
+    "title": "AI in Medicine & Health Science Seminar",
+    "category": "seminars",
+    "description": "Learn how machine learning is transforming clinical diagnostics and bioinformatics.",
+    "date": "2026-07-28T14:30:00",
+    "location": "Seminar Hall 3",
+    "organizer": "BioTech Club",
+    "featured": false,
+    "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80&auto=format&fit=crop",
+    "createdAt": "2026-07-13T10:00:00.000Z",
+    "updatedAt": "2026-07-13T10:00:00.000Z"
+  },
+  {
+    "id": "event-3",
+    "title": "Resume Crafting & Interview Prep Workshop",
+    "category": "workshops",
+    "description": "Improve your resume and prepare for technical interviews with industry mentors.",
+    "date": "2026-07-20T10:00:00",
+    "location": "Placement Cell Hall A",
+    "organizer": "Training & Placement Cell",
+    "featured": false,
+    "image": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80&auto=format&fit=crop",
+    "createdAt": "2026-07-12T10:00:00.000Z",
+    "updatedAt": "2026-07-12T10:00:00.000Z"
   }
 ]
